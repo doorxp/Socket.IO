@@ -7,7 +7,7 @@ public class Example : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        var io = IO.IO.Connection("wss://dev-socket-center.dragonmahjong.xyz:443");
+        var io = IO.IO.Connection("ws://192.168.1.2:443");
 
         io.On("connect", ret =>
         {
