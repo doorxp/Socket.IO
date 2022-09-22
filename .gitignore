@@ -1,0 +1,11 @@
+.DS_Store
+.vsconfig
+*.csproj
+*.sln
+.vs
+*.meta
+Temp
+obj
+Logs
+Library
+UserSettings/Layouts
