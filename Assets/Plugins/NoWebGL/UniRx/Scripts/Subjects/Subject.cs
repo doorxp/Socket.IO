@@ -16,7 +16,7 @@ namespace UniRx
         {
             get
             {
-                return outObserver is not EmptyObserver<T> && !isStopped && !isDisposed;
+                return !(outObserver is EmptyObserver<T>) && !isStopped && !isDisposed;
             }
         }
 

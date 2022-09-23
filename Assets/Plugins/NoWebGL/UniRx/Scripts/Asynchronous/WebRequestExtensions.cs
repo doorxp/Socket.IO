@@ -22,7 +22,7 @@ namespace UniRx
                         }
                         catch (WebException ex)
                         {
-                            if (ex.Status == WebExceptionStatus.RequestCanceled) return default;
+                            if (ex.Status == WebExceptionStatus.RequestCanceled) return default(TResult);
                             throw;
                         }
                     })()

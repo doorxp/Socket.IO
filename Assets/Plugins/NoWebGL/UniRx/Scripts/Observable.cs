@@ -261,7 +261,6 @@ namespace UniRx
 #else
             var comparer = EqualityComparer<TKey>.Default;
 #endif
-
             return new DistinctUntilChangedObservable<T, TKey>(source, keySelector, comparer);
         }
 

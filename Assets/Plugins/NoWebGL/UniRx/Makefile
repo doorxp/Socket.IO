@@ -45,6 +45,6 @@ $(BUILD_TARGET): $(SRC)
   -r:System.dll \
   -r:System.Core.dll \
   -r:mscorlib.dll \
-  -d:NET_4_6 -d:Release -d:UNITY_METRO \
+  -d:UNITY_4_5 -d:NETFX_CORE -d:Release -d:UNITY_METRO \
   $(SRC)
 	@echo built: $@
