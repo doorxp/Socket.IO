@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using UniRx.InternalUtil;
 
 namespace UniRx
@@ -18,7 +16,7 @@ namespace UniRx
         {
             get
             {
-                return !(outObserver is EmptyObserver<T>) && !isStopped && !isDisposed;
+                return outObserver is not EmptyObserver<T> && !isStopped && !isDisposed;
             }
         }
 

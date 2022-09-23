@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading;
 
 namespace UniRx
@@ -15,7 +12,7 @@ namespace UniRx
             var result = Observable.Create<TResult>(observer =>
             {
                 var isCompleted = -1;
-                var subscription = Observable.FromAsyncPattern<TResult>(begin,
+                var subscription = Observable.FromAsyncPattern(begin,
                     ar =>
                     {
                         try
@@ -25,7 +22,7 @@ namespace UniRx
                         }
                         catch (WebException ex)
                         {
-                            if (ex.Status == WebExceptionStatus.RequestCanceled) return default(TResult);
+                            if (ex.Status == WebExceptionStatus.RequestCanceled) return default;
                             throw;
                         }
                     })()
@@ -45,17 +42,17 @@ namespace UniRx
 
         public static IObservable<WebResponse> GetResponseAsObservable(this WebRequest request)
         {
-            return AbortableDeferredAsyncRequest<WebResponse>(request.BeginGetResponse, request.EndGetResponse, request);
+            return AbortableDeferredAsyncRequest(request.BeginGetResponse, request.EndGetResponse, request);
         }
 
         public static IObservable<HttpWebResponse> GetResponseAsObservable(this HttpWebRequest request)
         {
-            return AbortableDeferredAsyncRequest<HttpWebResponse>(request.BeginGetResponse, ar => (HttpWebResponse)request.EndGetResponse(ar), request);
+            return AbortableDeferredAsyncRequest(request.BeginGetResponse, ar => (HttpWebResponse)request.EndGetResponse(ar), request);
         }
 
         public static IObservable<Stream> GetRequestStreamAsObservable(this WebRequest request)
         {
-            return AbortableDeferredAsyncRequest<Stream>(request.BeginGetRequestStream, request.EndGetRequestStream, request);
+            return AbortableDeferredAsyncRequest(request.BeginGetRequestStream, request.EndGetRequestStream, request);
         }
     }
 }

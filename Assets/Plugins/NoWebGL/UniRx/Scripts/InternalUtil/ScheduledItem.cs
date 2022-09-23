@@ -56,7 +56,7 @@ namespace UniRx.InternalUtil
         public int CompareTo(ScheduledItem other)
         {
             // MSDN: By definition, any object compares greater than null, and two null references compare equal to each other. 
-            if (object.ReferenceEquals(other, null))
+            if (other is null)
                 return 1;
 
             return DueTime.CompareTo(other.DueTime);

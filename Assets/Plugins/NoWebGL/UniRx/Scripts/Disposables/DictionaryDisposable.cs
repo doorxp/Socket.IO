@@ -35,8 +35,7 @@ namespace UniRx
                 {
                     if (isDisposed) value.Dispose();
 
-                    TValue oldValue;
-                    if (TryGetValue(key, out oldValue))
+                    if (TryGetValue(key, out TValue oldValue))
                     {
                         oldValue.Dispose();
                         inner[key] = value;
@@ -106,8 +105,7 @@ namespace UniRx
         {
             lock (inner)
             {
-                TValue oldValue;
-                if (inner.TryGetValue(key, out oldValue))
+                if (inner.TryGetValue(key, out TValue oldValue))
                 {
                     var isSuccessRemove = inner.Remove(key);
                     if (isSuccessRemove)
@@ -223,7 +221,7 @@ namespace UniRx
         {
             lock (inner)
             {
-                return new List<KeyValuePair<TKey, TValue>>((ICollection<KeyValuePair<TKey, TValue>>)inner).GetEnumerator();
+                return new List<KeyValuePair<TKey, TValue>>(inner).GetEnumerator();
             }
         }
 

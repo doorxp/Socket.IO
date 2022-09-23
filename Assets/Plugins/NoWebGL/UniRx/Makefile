@@ -34,7 +34,7 @@ $(BUILD_TARGET): $(SRC)
 	$(shell install -d $(BUILD_DIR))
 
 	$(CSC) -out:$(BUILD_TARGET) \
-  -target:library -debug:portable -nostdlib -noconfig \
+  -target:library \
   -lib:$(UNITYENGINE) \
   -lib:$(API) \
   -lib:$(FACADES) \
@@ -45,6 +45,6 @@ $(BUILD_TARGET): $(SRC)
   -r:System.dll \
   -r:System.Core.dll \
   -r:mscorlib.dll \
-  -d:UNITY_4_5 -d:Release -d:UNITY_METRO \
+  -d:NET_4_6 -d:Release -d:UNITY_METRO \
   $(SRC)
 	@echo built: $@
