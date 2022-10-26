@@ -694,9 +694,10 @@ namespace SocketIOClient
             if (Connected)
             {
                 Connected = false;
-                OnDisconnected?.Invoke(this, reason);
                 try
                 {
+                    
+                    OnDisconnected?.Invoke(this, reason);
                     await _transport.DisconnectAsync(CancellationToken.None).ConfigureAwait(false);
                 }
                 catch { }
