@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
 using Newtonsoft.Json.Linq;
 using SocketIOClient;
 using SocketIOClient.Newtonsoft.Json;
@@ -40,9 +41,12 @@ namespace IO
             this.Id = id;
         }
 #else
+        SynchronizationContext MainContext = null;
+
         private readonly SocketIO client;
         protected internal Socket(int id, SocketIO client)
         {
+            MainContext = SynchronizationContext.Current;
             this.Id = id;
             this.client = client;
             client.OnAny((string eventname, SocketIOResponse res) =>
@@ -58,46 +62,48 @@ namespace IO
                 }
                 finally
                 {
-                    InvokeEvent(eventname, ret);
+                    MainContext.Post(ctx => InvokeEvent(eventname, ret), null);
                 }
             });
 
             client.OnConnected += (sender, args) =>
             {
-                InvokeEvent("connect", null);
+                MainContext.Post(ctx => InvokeEvent("connect", null), null);
             };
 
             client.OnDisconnected += (sender, args) =>
             {
-                InvokeEvent("disconnect", null);
+                MainContext.Post(ctx => InvokeEvent("disconnect", null), null);
             };
 
             client.OnError += (sender, args) =>
             {
-                InvokeEvent("error", null);
+                MainContext.Post(ctx => InvokeEvent("error", null), null);
+                
             };
 
             client.OnReconnectAttempt += (sender, args) =>
             {
-                InvokeEvent("reconnect_attempt", args.ToString());
+                MainContext.Post(ctx => InvokeEvent("reconnect_attempt", args.ToString()), null);
             };
 
 
             client.OnReconnected += (sender, arg) =>
             {
-                InvokeEvent("reconnect", null);
+                MainContext.Post(ctx => InvokeEvent("reconnect", null), null);
+ 
             };
 
             client.OnReconnectError += (sender, arg) =>
             {
-                InvokeEvent("reconnect_error", null);
+                MainContext.Post(ctx => InvokeEvent("reconnect_error", null), null);
             };
 
             client.OnReconnectFailed += (sender, arg) =>
             {
-                InvokeEvent("reconnect_failed", null);
+                MainContext.Post(ctx => InvokeEvent("reconnect_failed", null), null);
             };
-
+            
             client.OnPing += (sender, arg) =>
             {
                 InvokeEvent("ping", null);
